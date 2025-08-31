@@ -1,11 +1,11 @@
 'use client';
 
 import { useSignin } from '@/lib/react-query';
+import { sign } from 'crypto';
 import { useState } from 'react';
 
 export default function Login() {
   const signin = useSignin();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -16,6 +16,8 @@ export default function Login() {
 
   return (
     <div>
+      {signin.isPending && <p>Loading...</p>}
+      {signin.isError && <p className="text-red-500">Login failed. Please try again.</p>}
       <form onSubmit={handleLogin} className="flex flex-col gap-4 max-w-sm mx-auto mt-10">
         <input
           type="email"

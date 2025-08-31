@@ -1,5 +1,6 @@
 import { signin } from '@/lib/api/auth';
-import { useMutation } from '@tanstack/react-query';
+import { getTasks } from '@/lib/api/tasks';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { redirect } from 'next/navigation';
 
 export function useSignin() {
@@ -13,5 +14,12 @@ export function useSignin() {
     onError: error => {
       console.error('Login failed:', error);
     },
+  });
+}
+
+export function useTasks() {
+  return useQuery({
+    queryKey: ['tasks'],
+    queryFn: async () => getTasks(),
   });
 }
