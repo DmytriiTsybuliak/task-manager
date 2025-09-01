@@ -15,14 +15,19 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
       {signin.isPending && <p>Loading...</p>}
-      {signin.isError && <p className="text-red-500">Login failed. Please try again.</p>}
+      {signin.isError && (
+        <p className="text-red-500">
+          Login failed. Please try again.{' '}
+          {signin.error instanceof Error ? signin.error.message : String(signin.error)}
+        </p>
+      )}
       <form onSubmit={handleLogin} className="flex flex-col gap-4 max-w-sm mx-auto mt-10">
         <input
           type="email"
           placeholder="Email"
-          className="border p-2 rounded"
+          className="border p-5 rounded"
           value={email}
           onChange={e => {
             setEmail(e.target.value);
@@ -32,7 +37,7 @@ export default function Login() {
         <input
           type="password"
           placeholder="Password"
-          className="border p-2 rounded"
+          className="border p-5 rounded"
           value={password}
           onChange={e => {
             setPassword(e.target.value);
