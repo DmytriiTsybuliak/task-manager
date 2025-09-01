@@ -1,7 +1,7 @@
 'use client';
 
 import { useSignin } from '@/lib/react-query';
-import { sign } from 'crypto';
+import { redirect } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Login() {
@@ -14,9 +14,13 @@ export default function Login() {
     signin.mutate({ email: email, password: password });
   };
 
+  if (signin.isSuccess) {
+    redirect('/dashboard');
+  }
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
       {signin.isPending && <p>Loading...</p>}
+
       {signin.isError && (
         <p className="text-red-500">
           Login failed. Please try again.{' '}

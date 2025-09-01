@@ -1,6 +1,4 @@
-export interface RegistrationProps {}
-
-export default function Registration({}: RegistrationProps) {
+export default function Registration() {
   return (
     <div>
       <p>This is the registration page.</p>

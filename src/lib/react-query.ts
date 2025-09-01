@@ -1,7 +1,6 @@
 import { signin } from '@/lib/api/auth';
-import { getTasks } from '@/lib/api/tasks';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { redirect } from 'next/navigation';
+import { createTask, getTasks } from '@/lib/api/tasks';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export function useSignin() {
   return useMutation({
@@ -9,7 +8,6 @@ export function useSignin() {
       signin(email, password),
     onSuccess: data => {
       console.log('Login successful:', data);
-      redirect('/dashboard');
     },
     onError: error => {
       console.error('Login failed:', error);
@@ -20,6 +18,21 @@ export function useSignin() {
 export function useTasks() {
   return useQuery({
     queryKey: ['tasks'],
-    queryFn: async () => getTasks(),
+    queryFn: getTasks,
+  });
+}
+
+export function useCreateTask() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (newTask: { title: string; description: string }) => {
+      createTask(newTask);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+    onError: error => {
+      console.error('Error creating task:', error);
+    },
   });
 }

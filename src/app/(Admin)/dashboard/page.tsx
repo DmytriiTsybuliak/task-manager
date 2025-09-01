@@ -1,10 +1,17 @@
 import TaskList from '@/components/TaskList';
+import { getTasks } from '@/lib/api/tasks';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
-export default function DashBoard() {
+export default async function DashBoard() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ['tasks'],
+    queryFn: getTasks,
+  });
+
   return (
-    <div>
-      <p>This is the dashboard page.</p>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <TaskList />
-    </div>
+    </HydrationBoundary>
   );
 }
