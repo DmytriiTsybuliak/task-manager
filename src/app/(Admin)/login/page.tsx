@@ -6,8 +6,8 @@ import { useState } from 'react';
 
 export default function Login() {
   const signin = useSignin();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('1tonistark1997@gmail.com');
+  const [password, setPassword] = useState('1111');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,6 +17,7 @@ export default function Login() {
   if (signin.isSuccess) {
     redirect('/dashboard');
   }
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
       {signin.isPending && <p>Loading...</p>}

@@ -6,7 +6,8 @@ export async function getTasks() {
   if (!res.ok) {
     throw new Error('Failed to fetch tasks');
   }
-  return res.json();
+  const { data } = await res.json();
+  return data;
 }
 
 export async function createTask(newTask: { title: string; description: string }) {
@@ -21,5 +22,6 @@ export async function createTask(newTask: { title: string; description: string }
   if (!res.ok) {
     throw new Error('Failed to create task');
   }
-  return res.json();
+  const { data } = await res.json();
+  return data;
 }

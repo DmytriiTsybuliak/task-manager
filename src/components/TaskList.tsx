@@ -1,6 +1,7 @@
 'use client';
 
 import { useTasks } from '@/lib/react-query';
+import { redirect } from 'next/navigation';
 
 export interface ITask {
   createdAt: string;
@@ -16,25 +17,25 @@ export interface ITask {
 }
 
 export default function TaskList() {
-  const { data, isLoading, isError, error } = useTasks();
+  const { data, isLoading, isError } = useTasks();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (isError) {
-    return <div>Error loading tasks: {(error as Error).message}</div>;
+    redirect('/login');
   }
 
   console.log(data);
 
   return (
-    <div>
-      <p>This is the task list page.</p>
-      <ul>
-        {data.data.map((task: ITask) => (
-          <li key={task._id}>
-            <h3>{task.title}</h3>
+    <div className="flex flex-col items-start gap-6 p-7">
+      <p className="text-2xl">This is the task list page.</p>
+      <ul className="flex flex-col gap-4 ">
+        {data.map((task: ITask) => (
+          <li key={task._id} className="border p-4 rounded shadow bg-black/95">
+            <h3 className="text-lg text-white">{task.title}</h3>
             <p>{task.description}</p>
             <p>Priority: {task.priority}</p>
             <p>Completed: {task.isCompleted ? 'Yes' : 'No'}</p>
