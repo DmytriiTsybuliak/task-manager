@@ -47,6 +47,8 @@ export async function updateTask(
     credentials: 'include',
     body: JSON.stringify(updatedTask),
   });
+  console.log('Response:', res);
+
   if (!res.ok) {
     throw new Error('Failed to update task');
   }

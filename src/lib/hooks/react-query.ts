@@ -42,7 +42,7 @@ export function useUpdateTask() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ taskID, newTask }: { taskID: number; newTask: ITaskCard }) => {
-      updateTask(taskID, newTask);
+      return await updateTask(taskID, newTask);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });

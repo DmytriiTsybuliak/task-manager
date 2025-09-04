@@ -11,8 +11,10 @@ export default function TaskCard(task: ITaskCard) {
 
   useClickOutside(ref, () => {
     if (isEditing) {
-      const taskID = draft._id;
-      updateTask.mutate({ taskID, newTask: draft });
+      const taskID = draft._id!;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { _id, createdAt, updatedAt, userId, ...cleanTask } = draft;
+      updateTask.mutate({ taskID, newTask: cleanTask });
       setIsEditing(false);
     }
   });
@@ -35,12 +37,6 @@ export default function TaskCard(task: ITaskCard) {
             {task.title}
           </h3>
         </li>
-
-        // <p>Priority: {task.priority}</p>
-        // <p>Completed: {task.isCompleted ? 'Yes' : 'No'}</p>
-        // {/* <p>Tags: {tags.join(', ')}</p> */}
-        // {/* <p>Subtasks: {subtasks ? subtasks.join(', ') : ''}</p> */}
-        // {/* <p>User ID: {userId}</p> */}
       )}
     </div>
   );

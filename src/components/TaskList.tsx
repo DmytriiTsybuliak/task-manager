@@ -16,8 +16,6 @@ export default function TaskList() {
     redirect('/login');
   }
 
-  console.log(data);
-
   return (
     <div className="flex flex-col items-start gap-6 p-7">
       <p className="text-2xl">This is the task list page.</p>
