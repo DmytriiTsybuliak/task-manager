@@ -1,5 +1,6 @@
 import { signin } from '@/lib/api/auth';
-import { createTask, getTasks } from '@/lib/api/tasks';
+import { createTask, getTasks, updateTask } from '@/lib/api/tasks';
+import { ITaskCard } from '@/lib/types/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export function useSignin() {
@@ -25,8 +26,23 @@ export function useTasks() {
 export function useCreateTask() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (newTask: { title: string; description: string }) => {
+    mutationFn: async (newTask: ITaskCard) => {
       createTask(newTask);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+    onError: error => {
+      console.error('Error creating task:', error);
+    },
+  });
+}
+
+export function useUpdateTask() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ taskID, newTask }: { taskID: number; newTask: ITaskCard }) => {
+      updateTask(taskID, newTask);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
