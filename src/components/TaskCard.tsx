@@ -19,15 +19,29 @@ export default function TaskCard(task: ITaskCard) {
 
   return (
     <div ref={ref}>
-      <li className="border p-4 rounded shadow bg-black/95">
-        <h3 className="text-lg text-white">{task.title}</h3>
-        <p>{task.description}</p>
-        <p>Priority: {task.priority}</p>
-        <p>Completed: {task.isCompleted ? 'Yes' : 'No'}</p>
-        {/* <p>Tags: {tags.join(', ')}</p> */}
-        {/* <p>Subtasks: {subtasks ? subtasks.join(', ') : ''}</p> */}
-        {/* <p>User ID: {userId}</p> */}
-      </li>
+      {isEditing ? (
+        <li className="border p-4 rounded shadow bg-black/95">
+          <input
+            type="text"
+            value={draft.title}
+            onChange={e => setDraft({ ...draft, title: e.target.value })}
+            className="border-b bg-transparent w-full text-white"
+            autoFocus
+          />
+        </li>
+      ) : (
+        <li className="border p-4 rounded shadow bg-black/95">
+          <h3 onClick={() => setIsEditing(true)} className="text-lg text-white">
+            {task.title}
+          </h3>
+        </li>
+
+        // <p>Priority: {task.priority}</p>
+        // <p>Completed: {task.isCompleted ? 'Yes' : 'No'}</p>
+        // {/* <p>Tags: {tags.join(', ')}</p> */}
+        // {/* <p>Subtasks: {subtasks ? subtasks.join(', ') : ''}</p> */}
+        // {/* <p>User ID: {userId}</p> */}
+      )}
     </div>
   );
 }
