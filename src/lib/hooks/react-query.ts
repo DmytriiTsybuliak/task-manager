@@ -1,20 +1,6 @@
-import { signin } from '@/lib/api/auth';
-import { createTask, getTasks, updateTask } from '@/lib/api/tasks';
+import { createTask, deleteTask, getTasks, updateTask } from '@/lib/api/tasks';
 import { ITaskCard } from '@/lib/types/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
-export function useSignin() {
-  return useMutation({
-    mutationFn: ({ email, password }: { email: string; password: string }) =>
-      signin(email, password),
-    onSuccess: data => {
-      console.log('Login successful:', data);
-    },
-    onError: error => {
-      console.error('Login failed:', error);
-    },
-  });
-}
 
 export function useTasks() {
   return useQuery({
@@ -41,7 +27,7 @@ export function useCreateTask() {
 export function useUpdateTask() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ taskID, newTask }: { taskID: number; newTask: ITaskCard }) => {
+    mutationFn: async ({ taskID, newTask }: { taskID: string; newTask: ITaskCard }) => {
       return await updateTask(taskID, newTask);
     },
     onSuccess: () => {
@@ -49,6 +35,21 @@ export function useUpdateTask() {
     },
     onError: error => {
       console.error('Error creating task:', error);
+    },
+  });
+}
+
+export function useDeleteTask() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (taskID: string) => {
+      deleteTask(taskID);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+    onError: error => {
+      console.error('Error deleting task:', error);
     },
   });
 }

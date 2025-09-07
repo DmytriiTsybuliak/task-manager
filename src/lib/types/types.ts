@@ -6,7 +6,7 @@ export interface ITaskCard {
   title: string;
   description?: string;
   userId?: string;
-  _id?: number;
+  _id?: string;
   updatedAt?: string;
   createdAt?: string;
 }

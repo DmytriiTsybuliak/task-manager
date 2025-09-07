@@ -1,4 +1,4 @@
-import { useUpdateTask } from '@/lib/hooks/react-query';
+import { useDeleteTask, useUpdateTask } from '@/lib/hooks/react-query';
 import { ITaskCard } from '@/lib/types/types';
 import { useRef, useState } from 'react';
 import { useClickOutside } from '@/lib/hooks/useClickOutside';
@@ -7,17 +7,23 @@ export default function TaskCard(task: ITaskCard) {
   const [isEditing, setIsEditing] = useState(false);
   const [draft, setDraft] = useState(task);
   const updateTask = useUpdateTask();
+  const deleteTask = useDeleteTask();
   const ref = useRef<HTMLDivElement | null>(null);
 
   useClickOutside(ref, () => {
     if (isEditing) {
-      const taskID = draft._id!;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { _id, createdAt, updatedAt, userId, ...cleanTask } = draft;
+      const { _id, ...cleanTask } = draft;
+      // if (!_id) throw new Error('Task has no _id'); // it's 100$ sure that _id exists here, so I commented this out, and use non-null assertion below
+      const taskID = _id!;
       updateTask.mutate({ taskID, newTask: cleanTask });
       setIsEditing(false);
     }
   });
+  const handleDeleteTask = () => {
+    const confirmDelete = window.confirm(`Удалить задачу "${task.title}"?`);
+    if (!confirmDelete) return;
+    deleteTask.mutate(task._id!);
+  };
 
   return (
     <div ref={ref}>
@@ -36,6 +42,9 @@ export default function TaskCard(task: ITaskCard) {
           <h3 onClick={() => setIsEditing(true)} className="text-lg text-white">
             {task.title}
           </h3>
+          <button type="button" onClick={handleDeleteTask}>
+            delete
+          </button>
         </li>
       )}
     </div>

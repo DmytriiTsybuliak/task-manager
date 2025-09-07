@@ -29,7 +29,7 @@ export async function createTask(newTask: ITaskCard) {
 }
 
 export async function updateTask(
-  taskId: number,
+  taskId: string,
   updatedTask: {
     title: string;
     isCompleted?: boolean;
@@ -47,7 +47,6 @@ export async function updateTask(
     credentials: 'include',
     body: JSON.stringify(updatedTask),
   });
-  console.log('Response:', res);
 
   if (!res.ok) {
     throw new Error('Failed to update task');

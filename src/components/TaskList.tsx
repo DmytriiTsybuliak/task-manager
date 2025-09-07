@@ -3,17 +3,20 @@
 import TaskCard from '@/components/TaskCard';
 import { useTasks } from '@/lib/hooks/react-query';
 import { ITaskCard } from '@/lib/types/types';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function TaskList() {
   const { data, isLoading, isError } = useTasks();
+  const router = useRouter();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (isError) {
-    redirect('/login');
+    // redirect('/login'); // this redirect only works on server side
+    router.push('/login'); // this works on client side
+    return null;
   }
 
   return (
