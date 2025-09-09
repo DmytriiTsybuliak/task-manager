@@ -12,9 +12,10 @@ export function useTasks() {
 export function useCreateTask() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (newTask: ITaskCard) => {
-      createTask(newTask);
-    },
+    // mutationFn: async (newTask: ITaskCard) => {
+    //   return await createTask(newTask);
+    // },
+    mutationFn: (newTask: ITaskCard) => createTask(newTask),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
@@ -27,24 +28,45 @@ export function useCreateTask() {
 export function useUpdateTask() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ taskID, newTask }: { taskID: string; newTask: ITaskCard }) => {
-      return await updateTask(taskID, newTask);
+    mutationFn: ({ taskID, newTask }: { taskID: string; newTask: ITaskCard }) =>
+      updateTask(taskID, newTask),
+    onMutate: async ({ taskID, newTask }) => {
+      await queryClient.cancelQueries({ queryKey: ['tasks'] });
+      const previousTasks = queryClient.getQueryData<ITaskCard[]>(['tasks']);
+      queryClient.setQueryData<ITaskCard[]>(['tasks'], old => {
+        if (!old) return [];
+        return old.map(task => (task._id === taskID ? { ...task, ...newTask } : task));
+      });
+      return { previousTasks };
     },
-    onSuccess: () => {
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
-    onError: error => {
-      console.error('Error creating task:', error);
+    onError: (err, variables, context) => {
+      if (context?.previousTasks) {
+        queryClient.setQueryData(['tasks'], context.previousTasks);
+      }
+      console.error('Error updating task:', err);
     },
+    // We don't need this because we're doing optimistic updates
+    // but I'll leave it here for reference
+
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    // },
+    // onError: error => {
+    //   console.error('Error creating task:', error);
+    // },
   });
 }
 
 export function useDeleteTask() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (taskID: string) => {
-      deleteTask(taskID);
-    },
+    // mutationFn: async (taskID: string) => {
+    //   return await deleteTask(taskID);
+    // },
+    mutationFn: (taskID: string) => deleteTask(taskID),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },

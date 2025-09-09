@@ -23,7 +23,6 @@ export default function TaskCard(task: ITaskCard) {
     const confirmDelete = window.confirm(`Удалить задачу "${task.title}"?`);
     if (!confirmDelete) return;
     deleteTask.mutate(task._id!);
-    // console.log('delete task', task._id);
   };
 
   return (
