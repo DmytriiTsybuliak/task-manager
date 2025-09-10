@@ -13,7 +13,7 @@ export default function TaskCard(task: ITaskCard) {
   useClickOutside(ref, () => {
     if (isEditing) {
       const { _id, ...cleanTask } = draft;
-      // if (!_id) throw new Error('Task has no _id'); // it's 100$ sure that _id exists here, so I commented this out, and use non-null assertion below
+      // if (!_id) throw new Error('Task has no _id'); // it's 100% sure that _id exists here, so I commented this out, and use non-null assertion below
       const taskID = _id!;
       updateTask.mutate({ taskID, newTask: cleanTask });
       setIsEditing(false);
