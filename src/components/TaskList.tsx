@@ -1,12 +1,15 @@
 'use client';
 
+import AddTaskModal from '@/components/AddTaskModal';
 import TaskCard from '@/components/TaskCard';
 import { useTasks } from '@/lib/hooks/react-query';
 import { ITaskCard } from '@/lib/types/types';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function TaskList() {
   const { data, isLoading, isError } = useTasks();
+  const [IsModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
   if (isLoading) {
@@ -28,7 +31,13 @@ export default function TaskList() {
           <TaskCard key={task._id} {...task} />
         ))}
       </ul>
-      {/* <AddTaskForm /> */}
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+      >
+        + Add Task
+      </button>
+      <AddTaskModal isOpen={IsModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }

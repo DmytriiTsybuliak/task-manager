@@ -1,0 +1,74 @@
+import { useCreateTask } from '@/lib/hooks/react-query';
+import { ITaskCard } from '@/lib/types/types';
+import { useState } from 'react';
+
+interface AddTaskModalProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+export default function AddTaskModal({ isOpen, onClose }: AddTaskModalProps) {
+  const createTask = useCreateTask();
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+
+  if (isOpen === false) return null;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newTask: ITaskCard = {
+      title,
+      description,
+      isCompleted: false,
+      priority: 'medium',
+      tags: [],
+    };
+    createTask.mutate(newTask, {
+      onSuccess: () => {
+        setTitle('');
+        setDescription('');
+        if (onClose) onClose();
+      },
+    });
+  };
+
+  return (
+    <div>
+      <div>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-2 p-4 border rounded shadow bg-black/90"
+        >
+          <input
+            type="text"
+            placeholder="Task Title"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            className="border p-2 rounded mb-2 w-full  text-white"
+          />
+          <textarea
+            placeholder="Description"
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+            className="border p-2 rounded mb-2 w-full  text-white"
+            rows={4}
+          />
+          <div className="flex justify-end gap-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 rounded border bg-gray-200 hover:bg-gray-300"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+            >
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
