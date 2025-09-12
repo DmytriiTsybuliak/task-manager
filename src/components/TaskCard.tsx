@@ -36,12 +36,22 @@ export default function TaskCard(task: ITaskCard) {
             className="border-b bg-transparent w-full text-white"
             autoFocus
           />
+          <textarea
+            placeholder="Description"
+            value={draft.description}
+            onChange={e => setDraft({ ...draft, description: e.target.value })}
+            className="border p-2 rounded mb-2 w-full  text-white"
+            rows={4}
+          />
         </li>
       ) : (
         <li className="border p-4 rounded shadow bg-black/95">
           <h3 onClick={() => setIsEditing(true)} className="text-lg text-white">
             {task.title}
           </h3>
+          <textarea rows={4} className="text-sm text-white">
+            {task.description}
+          </textarea>
           <button type="button" onClick={handleDeleteTask}>
             delete
           </button>
