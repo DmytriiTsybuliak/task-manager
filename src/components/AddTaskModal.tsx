@@ -31,8 +31,12 @@ export default function AddTaskModal({ isOpen, onClose }: AddTaskModalProps) {
     });
   };
 
+  //  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+  //     <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+  //       <h2 className="text-xl font-semibold mb-4">Add New Task</h2>
+  //       <form onSubmit={handleSubmit} className="flex flex-col gap-4"></form>
   return (
-    <div>
+    <div className="fixed inset-0 bg-black/50">
       <div>
         <form
           onSubmit={handleSubmit}
