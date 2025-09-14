@@ -6,6 +6,7 @@ export function useTasks() {
   return useQuery({
     queryKey: ['tasks'],
     queryFn: getTasks,
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 }
 

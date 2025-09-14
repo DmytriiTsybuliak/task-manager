@@ -5,12 +5,19 @@ import TaskCard from '@/components/TaskCard';
 import { useTasks } from '@/lib/hooks/react-query';
 import { ITaskCard } from '@/lib/types/types';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function TaskList() {
   const { data, isLoading, isError } = useTasks();
   const [IsModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (isError) {
+      // redirect('/login'); // this redirect only works on server side
+      router.push('/login'); // this works on client side
+    }
+  }, [isError, router]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -18,7 +25,7 @@ export default function TaskList() {
 
   if (isError) {
     // redirect('/login'); // this redirect only works on server side
-    router.push('/login'); // this works on client side
+    // router.push('/login'); // this works on client side
     return null;
   }
 
