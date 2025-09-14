@@ -24,8 +24,6 @@ export default function TaskList() {
   }
 
   if (isError) {
-    // redirect('/login'); // this redirect only works on server side
-    // router.push('/login'); // this works on client side
     return null;
   }
 
