@@ -37,6 +37,7 @@ export default function Login() {
           onChange={e => {
             setEmail(e.target.value);
           }}
+          aria-invalid={email === '' ? 'true' : 'false'}
           required
         />
         <input
@@ -47,6 +48,7 @@ export default function Login() {
           onChange={e => {
             setPassword(e.target.value);
           }}
+          aria-invalid={password === '' ? 'true' : 'false'}
           required
         />
         <button type="submit" className="bg-blue-500 text-white p-2 rounded">

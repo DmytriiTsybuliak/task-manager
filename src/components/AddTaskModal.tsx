@@ -10,6 +10,8 @@ export default function AddTaskModal({ isOpen, onClose }: AddTaskModalProps) {
   const createTask = useCreateTask();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [priority, setPriority] = useState<'low' | 'medium' | 'high' | undefined>('medium');
+  const [tags, setTags] = useState<string[]>([]);
 
   if (isOpen === false) return null;
 
@@ -19,8 +21,8 @@ export default function AddTaskModal({ isOpen, onClose }: AddTaskModalProps) {
       title,
       description,
       isCompleted: false,
-      priority: 'medium',
-      tags: [],
+      priority,
+      tags,
     };
     createTask.mutate(newTask, {
       onSuccess: () => {
@@ -31,10 +33,6 @@ export default function AddTaskModal({ isOpen, onClose }: AddTaskModalProps) {
     });
   };
 
-  //  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-  //     <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
-  //       <h2 className="text-xl font-semibold mb-4">Add New Task</h2>
-  //       <form onSubmit={handleSubmit} className="flex flex-col gap-4"></form>
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="w-full max-w-md bg-white rounded-lg p-6 shadow-lg">
@@ -54,6 +52,16 @@ export default function AddTaskModal({ isOpen, onClose }: AddTaskModalProps) {
             className="border p-2 rounded mb-2 w-full  text-black"
             rows={4}
           />
+          <select
+            value={priority}
+            onChange={e => setPriority(e.target.value as 'low' | 'medium' | 'high')}
+            className="border p-2 rounded mb-2 w-full  text-black"
+          >
+            <option value="low">Low Priority</option>
+            <option value="medium">Medium Priority</option>
+            <option value="high">High Priority</option>
+          </select>
+
           <div className="flex justify-end gap-2">
             <button
               type="button"

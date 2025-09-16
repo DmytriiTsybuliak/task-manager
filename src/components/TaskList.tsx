@@ -31,7 +31,7 @@ export default function TaskList() {
     <div className="flex flex-col items-start gap-6 p-7">
       <p className="text-2xl">This is the task list page.</p>
 
-      <ul className="flex flex-col gap-4 ">
+      <ul className="flex flex-row gap-4 ">
         {data.map((task: ITaskCard) => (
           <TaskCard key={task._id} {...task} />
         ))}
