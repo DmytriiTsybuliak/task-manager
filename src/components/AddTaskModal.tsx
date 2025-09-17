@@ -44,6 +44,7 @@ export default function AddTaskModal({ isOpen, onClose }: AddTaskModalProps) {
             value={title}
             onChange={e => setTitle(e.target.value)}
             className="border p-2 rounded mb-2 w-full  text-black"
+            required
           />
           <textarea
             placeholder="Description"

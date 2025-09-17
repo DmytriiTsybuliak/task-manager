@@ -32,9 +32,7 @@ export default function TaskList() {
       <p className="text-2xl">This is the task list page.</p>
 
       <ul className="flex flex-row gap-4 ">
-        {data.map((task: ITaskCard) => (
-          <TaskCard key={task._id} {...task} />
-        ))}
+        {data && data.map((task: ITaskCard) => <TaskCard key={task._id} {...task} />)}
       </ul>
       <button
         onClick={() => setIsModalOpen(true)}
