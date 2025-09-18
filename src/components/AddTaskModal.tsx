@@ -11,18 +11,24 @@ export default function AddTaskModal({ isOpen, onClose }: AddTaskModalProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState<'low' | 'medium' | 'high' | undefined>('medium');
-  const [tags, setTags] = useState<string[]>([]);
+  const [error, setError] = useState('');
 
   if (isOpen === false) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (title.trim() === '') {
+      setError('Title is required');
+      return;
+    } else {
+      setError('');
+    }
     const newTask: ITaskCard = {
       title,
       description,
       isCompleted: false,
       priority,
-      tags,
+      tags: [],
     };
     createTask.mutate(newTask, {
       onSuccess: () => {
@@ -34,18 +40,32 @@ export default function AddTaskModal({ isOpen, onClose }: AddTaskModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="w-full max-w-md bg-white rounded-lg p-6 shadow-lg">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        className="w-full max-w-md bg-white rounded-lg p-6 shadow-lg"
+      >
         <h2 className="text-xl font-semibold mb-4">Add New Task</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4  ">
-          <input
-            type="text"
-            placeholder="Task Title"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-            className="border p-2 rounded mb-2 w-full  text-black"
-            required
-          />
+          <div>
+            <input
+              type="text"
+              placeholder="Task Title"
+              value={title}
+              onChange={e => {
+                setTitle(e.target.value);
+                setError('');
+              }}
+              className={`border p-2 rounded mb-2 w-full text-black ${
+                error ? 'border-red-500' : ''
+              }`}
+            />
+            {error && <p className="text-red-500 text-sm p-0">{error}</p>}
+          </div>
+
           <textarea
             placeholder="Description"
             value={description}

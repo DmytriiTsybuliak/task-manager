@@ -39,35 +39,43 @@ export default function TaskCard(task: ITaskCard) {
 
   return (
     <div ref={ref}>
-      <li className="border p-4 rounded shadow bg-black/95 flex flex-col gap-2">
-        {/* bg-white rounded-2xl shadow-md p-4 flex flex-col gap-3 hover:shadow-lg transition-shadow */}
+      <li className="bg-white/95 dark:bg-gray-900 rounded-2xl shadow-md p-4 flex flex-col gap-3 hover:shadow-lg transition-all duration-200 border border-gray-200 dark:border-gray-700">
+        {/* Title*/}
         <input
           type="text"
           value={draft.title}
           onChange={e => setDraft({ ...draft, title: e.target.value })}
           onClick={() => setIsEditing(true)}
-          className="border-b bg-transparent w-full text-white"
+          className={`font-semibold text-lg w-full bg-transparent border-b focus:outline-none ${
+            isEditing ? 'border-blue-400' : 'border-transparent'
+          } text-gray-900 dark:text-gray-100`}
           readOnly={!isEditing}
         />
+
+        {/* Description*/}
         <textarea
           placeholder="Description"
           value={draft.description}
           onChange={e => setDraft({ ...draft, description: e.target.value })}
           onClick={() => setIsEditing(true)}
-          className="border p-2 rounded w-full  text-white"
+          className="bg-gray-50 dark:bg-gray-800 rounded-xl p-2 text-gray-800 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
           rows={3}
           readOnly={!isEditing}
         />
-        <label className="flex items-center gap-2 text-white">
+
+        {/* Completed*/}
+        <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 ">
           <input
             type="checkbox"
             checked={draft.isCompleted}
             onChange={e => setDraft({ ...draft, isCompleted: e.target.checked })}
             onClick={() => setIsEditing(true)}
+            className="h-4 w-4 accent-green-500"
           />
           Completed
         </label>
-        {/* Priority UI */}
+
+        {/* Priority*/}
         <select
           value={draft.priority}
           onChange={e =>
@@ -77,18 +85,18 @@ export default function TaskCard(task: ITaskCard) {
             })
           }
           onClick={() => setIsEditing(true)}
-          className="border p-2 rounded bg-black/90 text-white"
+          className="rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-sm p-2 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-400"
         >
-          <option value="low">Low Priority</option>
-          <option value="medium">Medium Priority</option>
-          <option value="high">High Priority</option>
+          <option value="low">🟢 Low Priority</option>
+          <option value="medium">🟡 Medium Priority</option>
+          <option value="high">🔴 High Priority</option>
         </select>
         {/* Tags UI */}
-        <div className="flex flex-wrap gap-2 mt-2">
+        <div className="flex flex-wrap gap-2 mt-1">
           {draft.tags?.map((tag, idx) => (
             <span
               key={idx}
-              className="bg-gray-700 text-white px-2 py-1 rounded text-xs flex items-center gap-1"
+              className="bg-blue-100 dark:bg-blue-800 text-blue-700 px-2 py-1 rounded text-xs flex items-center gap-1"
             >
               {tag}
               {isEditing && (
@@ -130,7 +138,7 @@ export default function TaskCard(task: ITaskCard) {
         </div>
 
         <button type="button" onClick={handleDeleteTask} className="text-red-500">
-          delete
+          🗑 Delete
         </button>
       </li>
     </div>
