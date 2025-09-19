@@ -3,6 +3,7 @@ import { ITaskCard } from '@/lib/types/types';
 import { useEffect, useRef, useState } from 'react';
 import { useClickOutside } from '@/lib/hooks/useClickOutside';
 import { useHasChanges } from '@/lib/hooks/useHasChanges';
+import DeleteTaskModal from '@/components/DeleteTaskModal';
 
 export default function TaskCard(task: ITaskCard) {
   const [isEditing, setIsEditing] = useState(false);
@@ -11,6 +12,7 @@ export default function TaskCard(task: ITaskCard) {
   const deleteTask = useDeleteTask();
   const ref = useRef<HTMLDivElement | null>(null);
   const hasChanges = useHasChanges(draft, task);
+  const [IsModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setDraft(task);
@@ -39,7 +41,7 @@ export default function TaskCard(task: ITaskCard) {
 
   return (
     <div ref={ref}>
-      <li className="bg-white/95 dark:bg-gray-900 rounded-2xl shadow-md p-4 flex flex-col gap-3 hover:shadow-lg transition-all duration-200 border border-gray-200 dark:border-gray-700">
+      <li className="bg-white/95 max-w-60 dark:bg-gray-900 rounded-2xl shadow-md p-4 flex flex-col gap-3 hover:shadow-lg transition-all duration-200 border border-gray-200 dark:border-gray-700">
         {/* Title*/}
         <input
           type="text"
@@ -87,22 +89,22 @@ export default function TaskCard(task: ITaskCard) {
           onClick={() => setIsEditing(true)}
           className="rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-sm p-2 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-400"
         >
-          <option value="low">🟢 Low Priority</option>
-          <option value="medium">🟡 Medium Priority</option>
-          <option value="high">🔴 High Priority</option>
+          <option value="low">Low Priority</option>
+          <option value="medium">Medium Priority</option>
+          <option value="high">High Priority</option>
         </select>
         {/* Tags UI */}
         <div className="flex flex-wrap gap-2 mt-1">
           {draft.tags?.map((tag, idx) => (
             <span
               key={idx}
-              className="bg-blue-100 dark:bg-blue-800 text-blue-700 px-2 py-1 rounded text-xs flex items-center gap-1"
+              className="bg-blue-100 dark:bg-blue-300 text-blue-700 px-2 py-1 rounded text-xs flex items-center gap-1"
             >
-              {tag}
+              #{tag}
               {isEditing && (
                 <button
                   type="button"
-                  className="ml-1 text-red-400"
+                  className="ml-1 text-red-500 hover:text-red-700"
                   onClick={() =>
                     setDraft({
                       ...draft,
@@ -119,7 +121,7 @@ export default function TaskCard(task: ITaskCard) {
             <input
               type="text"
               placeholder="Add tag"
-              className="bg-gray-800 text-white px-2 py-1 rounded text-xs"
+              className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded-lg text-xs focus:outline-none"
               onKeyDown={e => {
                 if (
                   e.key === 'Enter' &&
@@ -136,10 +138,19 @@ export default function TaskCard(task: ITaskCard) {
             />
           )}
         </div>
-
+        {/* 
         <button type="button" onClick={handleDeleteTask} className="text-red-500">
           🗑 Delete
+        </button> */}
+        <button type="button" onClick={() => setIsModalOpen(true)} className="text-red-500">
+          🗑 Delete
         </button>
+        <DeleteTaskModal
+          isOpen={IsModalOpen}
+          title={task.title}
+          id={task._id}
+          onClose={() => setIsModalOpen(false)}
+        />
       </li>
     </div>
   );
