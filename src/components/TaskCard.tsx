@@ -1,4 +1,4 @@
-import { useDeleteTask, useUpdateTask } from '@/lib/hooks/react-query';
+import { useUpdateTask } from '@/lib/hooks/react-query';
 import { ITaskCard } from '@/lib/types/types';
 import { useEffect, useRef, useState } from 'react';
 import { useClickOutside } from '@/lib/hooks/useClickOutside';
@@ -9,7 +9,6 @@ export default function TaskCard(task: ITaskCard) {
   const [isEditing, setIsEditing] = useState(false);
   const [draft, setDraft] = useState(task);
   const updateTask = useUpdateTask();
-  const deleteTask = useDeleteTask();
   const ref = useRef<HTMLDivElement | null>(null);
   const hasChanges = useHasChanges(draft, task);
   const [IsModalOpen, setIsModalOpen] = useState(false);
@@ -32,12 +31,6 @@ export default function TaskCard(task: ITaskCard) {
       setIsEditing(false);
     }
   });
-
-  const handleDeleteTask = () => {
-    const confirmDelete = window.confirm(`Удалить задачу "${task.title}"?`);
-    if (!confirmDelete) return;
-    deleteTask.mutate(task._id!);
-  };
 
   return (
     <div ref={ref}>
@@ -138,10 +131,6 @@ export default function TaskCard(task: ITaskCard) {
             />
           )}
         </div>
-        {/* 
-        <button type="button" onClick={handleDeleteTask} className="text-red-500">
-          🗑 Delete
-        </button> */}
         <button type="button" onClick={() => setIsModalOpen(true)} className="text-red-500">
           🗑 Delete
         </button>
