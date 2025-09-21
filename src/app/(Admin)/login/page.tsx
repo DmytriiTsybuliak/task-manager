@@ -1,26 +1,28 @@
 'use client';
 
+import Loader from '@/components/Loader';
 import { useSignin } from '@/lib/hooks/useSignin';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Login() {
   const signin = useSignin();
   const [email, setEmail] = useState('1tonistark1997@gmail.com');
   const [password, setPassword] = useState('1111');
+  const router = useRouter();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    signin.mutate({ email: email, password: password });
+    signin.mutate({ email, password });
   };
 
   if (signin.isSuccess) {
-    redirect('/dashboard');
+    router.push('/dashboard');
   }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      {signin.isPending && <p>Loading...</p>}
+      {signin.isPending && <Loader />}
 
       {signin.isError && (
         <p className="text-red-500">
@@ -28,7 +30,10 @@ export default function Login() {
           {signin.error instanceof Error ? signin.error.message : String(signin.error)}
         </p>
       )}
-      <form onSubmit={handleLogin} className="flex flex-col gap-4 max-w-sm mx-auto mt-10">
+      <form
+        onSubmit={handleLogin}
+        className="flex flex-col gap-4 w-full max-w-sm mx-auto mt-10 px-4"
+      >
         <input
           type="email"
           placeholder="Email"
@@ -37,7 +42,6 @@ export default function Login() {
           onChange={e => {
             setEmail(e.target.value);
           }}
-          aria-invalid={email === '' ? 'true' : 'false'}
           required
         />
         <input
@@ -48,7 +52,6 @@ export default function Login() {
           onChange={e => {
             setPassword(e.target.value);
           }}
-          aria-invalid={password === '' ? 'true' : 'false'}
           required
         />
         <button type="submit" className="bg-blue-500 text-white p-2 rounded">

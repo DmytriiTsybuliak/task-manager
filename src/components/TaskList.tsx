@@ -28,18 +28,18 @@ export default function TaskList() {
   }
 
   return (
-    <div className="flex flex-col items-start gap-6 p-7">
-      <p className="text-2xl">This is the task list page.</p>
-
-      <ul className="flex flex-row gap-4 ">
+    <div className="flex flex-col items-center justify-center m-3 gap-6 p-7">
+      <p className="text-2xl">Task Dashboard</p>
+      <ul className="flex flex-row gap-4 flex-wrap ">
         {data && data.map((task: ITaskCard) => <TaskCard key={task._id} {...task} />)}
       </ul>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors w-auto shrink-0"
       >
         + Add Task
       </button>
+
       <AddTaskModal isOpen={IsModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );

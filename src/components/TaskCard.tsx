@@ -11,30 +11,28 @@ export default function TaskCard(task: ITaskCard) {
   const updateTask = useUpdateTask();
   const ref = useRef<HTMLDivElement | null>(null);
   const hasChanges = useHasChanges(draft, task);
-  const [IsModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setDraft(task);
   }, [task]);
 
+  const saveChanges = () => {
+    if (!hasChanges) return setIsEditing(false);
+    const { _id, ...cleanTask } = draft;
+    updateTask.mutate({ taskID: _id!, newTask: cleanTask });
+    setIsEditing(false);
+  };
+
   useClickOutside(ref, () => {
     if (isEditing) {
-      if (!hasChanges) {
-        setIsEditing(false);
-        return;
-      }
-      const { _id, ...cleanTask } = draft;
-      // if (!_id) throw new Error('Task has no _id');
-      // // it's 100% sure that _id exists here, so I commented this out, and use non-null assertion below
-      const taskID = _id!;
-      updateTask.mutate({ taskID, newTask: cleanTask });
-      setIsEditing(false);
+      saveChanges();
     }
   });
 
   return (
     <div ref={ref}>
-      <li className="bg-white/95 max-w-60 dark:bg-gray-900 rounded-2xl shadow-md p-4 flex flex-col gap-3 hover:shadow-lg transition-all duration-200 border border-gray-200 dark:border-gray-700">
+      <li className="bg-white/95 max-w-60 min-h-72 max-h-90 dark:bg-gray-800 rounded-2xl shadow-md p-4 flex flex-col gap-3 hover:shadow-lg transition-all duration-200 border border-gray-200 dark:border-gray-700">
         {/* Title*/}
         <input
           type="text"
@@ -53,7 +51,7 @@ export default function TaskCard(task: ITaskCard) {
           value={draft.description}
           onChange={e => setDraft({ ...draft, description: e.target.value })}
           onClick={() => setIsEditing(true)}
-          className="bg-gray-50 dark:bg-gray-800 rounded-xl p-2 text-gray-800 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="bg-gray-50 dark:bg-gray-700 rounded-xl p-2 overflow-y-auto text-gray-800 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
           rows={3}
           readOnly={!isEditing}
         />
@@ -87,7 +85,7 @@ export default function TaskCard(task: ITaskCard) {
           <option value="high">High Priority</option>
         </select>
         {/* Tags UI */}
-        <div className="flex flex-wrap gap-2 mt-1">
+        <div className="flex flex-wrap gap-2 mt-1 overflow-y-auto">
           {draft.tags?.map((tag, idx) => (
             <span
               key={idx}
@@ -131,13 +129,17 @@ export default function TaskCard(task: ITaskCard) {
             />
           )}
         </div>
-        <button type="button" onClick={() => setIsModalOpen(true)} className="text-red-500">
+        <button
+          type="button"
+          onClick={() => setIsModalOpen(true)}
+          className=" text-black bg-gray-300 hover:bg-gray-600 dark:text-white hover:text-black dark:bg-transparent dark:hover:bg-white transition-all duration-200 rounded-xl"
+        >
           🗑 Delete
         </button>
         <DeleteTaskModal
-          isOpen={IsModalOpen}
-          title={task.title}
-          id={task._id}
+          isOpen={isModalOpen}
+          title={draft.title}
+          id={draft._id}
           onClose={() => setIsModalOpen(false)}
         />
       </li>
