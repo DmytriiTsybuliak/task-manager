@@ -1,4 +1,10 @@
+import Loader from '@/components/Loader';
+
 export default function Loading() {
   // Or a custom loading skeleton component
-  return <p>Loading...</p>;
+  return (
+    <div className="flex justify-center items-center h-full">
+      <Loader />
+    </div>
+  );
 }

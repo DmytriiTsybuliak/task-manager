@@ -1,39 +1,38 @@
-'use client';
+// 'use client';
 
-import Loader from '@/components/Loader';
-import { useSignin } from '@/lib/hooks/useSignin';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import LoginForm from '@/app/(Admin)/login/LoginForm';
+
+// import ErrorMessage from '@/components/ErrorMessage';
+// import Loader from '@/components/Loader';
+// import { useSignin } from '@/lib/hooks/useSignin';
+// import { useRouter } from 'next/navigation';
+// import { useState } from 'react';
 
 export default function Login() {
-  const signin = useSignin();
-  const [email, setEmail] = useState('1tonistark1997@gmail.com');
-  const [password, setPassword] = useState('1111');
-  const router = useRouter();
+  // const signin = useSignin();
+  // const [email, setEmail] = useState('1tonistark1997@gmail.com');
+  // const [password, setPassword] = useState('1111');
+  // const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    signin.mutate(
-      { email, password },
-      {
-        onSuccess: () => {
-          router.replace('/dashboard'); // moved to useEffect
-        },
-      }
-    );
-  };
+  // const handleLogin = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   signin.mutate(
+  //     { email, password },
+  //     {
+  //       onSuccess: () => {
+  //         router.replace('/dashboard'); // moved to useEffect
+  //       },
+  //     }
+  //   );
+  // };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      {signin.isError && (
-        <p className="text-red-500">
-          Login failed. Please try again.{' '}
-          {signin.error instanceof Error ? signin.error.message : String(signin.error)}
-        </p>
-      )}
+    // <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <LoginForm />
+    /* {signin.isError && <ErrorMessage error={signin.error} />}
       <form
         onSubmit={handleLogin}
-        className="flex flex-col content-center gap-4 w-full max-w-3/20 mx-auto mt-10 px-3"
+        className="flex flex-col content-center gap-4 w-full max-w-sm mx-auto mt-10 px-3"
       >
         <input
           type="email"
@@ -63,6 +62,6 @@ export default function Login() {
           {signin.isPending ? <Loader /> : 'Login'}
         </button>
       </form>
-    </div>
+    </div> */
   );
 }
