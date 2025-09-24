@@ -1,7 +1,7 @@
 'use client';
 
 import AddTaskModal from '@/components/AddTaskModal';
-import TaskCard from '@/components/TaskCard';
+import TaskCard from '@/app/(Admin)/dashboard/TaskCard';
 import { useTasks } from '@/lib/hooks/react-query';
 import { ITaskCard } from '@/lib/types/types';
 import { useRouter } from 'next/navigation';

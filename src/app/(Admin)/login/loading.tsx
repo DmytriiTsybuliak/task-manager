@@ -1,3 +1,9 @@
+import Loader from '@/components/Loader';
+
 export default function Loading() {
-  return <p>Loading login page...</p>;
+  return (
+    <div className="flex justify-center items-center min-h-screen">
+      <Loader />
+    </div>
+  );
 }

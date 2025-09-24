@@ -1,4 +1,4 @@
-import TaskList from '@/components/TaskList';
+import TaskList from '@/app/(Admin)/dashboard/TaskList';
 import { getTasks } from '@/lib/api/tasks';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
