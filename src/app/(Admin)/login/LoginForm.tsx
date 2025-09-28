@@ -18,19 +18,21 @@ export default function LoginForm() {
       { email, password },
       {
         onSuccess: () => {
-          router.replace('/dashboard'); // moved to useEffect
+          router.replace('/dashboard');
         },
       }
     );
   };
   return (
-    <div>
+    <div className="w-full max-w-xs">
       {signin.isError && <ErrorMessage error={signin.error} />}
       <form
         onSubmit={handleLogin}
-        className="flex flex-col content-center gap-4 w-full max-w-sm mx-auto mt-10 px-3"
+        className="flex flex-col content-center gap-4 mx-auto mt-10 px-3"
       >
+        <label htmlFor="email">Email</label>
         <input
+          id="email"
           type="email"
           placeholder="Email"
           className="border p-3 rounded"
@@ -40,7 +42,9 @@ export default function LoginForm() {
           }}
           required
         />
+        <label htmlFor="password">Password</label>
         <input
+          id="password"
           type="password"
           placeholder="Password"
           className="border p-3 rounded"
@@ -50,12 +54,13 @@ export default function LoginForm() {
           }}
           required
         />
+        {signin.isPending && <Loader />}
         <button
           type="submit"
           disabled={signin.isPending}
           className="bg-blue-500 text-white p-2 rounded"
         >
-          {signin.isPending ? <Loader /> : 'Login'}
+          Login
         </button>
       </form>
     </div>
