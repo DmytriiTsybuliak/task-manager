@@ -6,6 +6,7 @@ import Input from '@/components/ui/Input';
 import { useSignin } from '@/lib/hooks/useSignin';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Button from '@/components/ui/Button';
 
 export default function LoginForm() {
   const signin = useSignin();
@@ -27,7 +28,6 @@ export default function LoginForm() {
   return (
     <div className="w-full max-w-xs">
       {signin.isError && <ErrorMessage error={signin.error} />}
-      {signin.isPending && <Loader />}
       <form
         onSubmit={handleLogin}
         className="flex flex-col content-center gap-4 mx-auto mt-10 px-3"
@@ -54,13 +54,9 @@ export default function LoginForm() {
           }}
           required
         />
-        <button
-          type="submit"
-          disabled={signin.isPending}
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Login
-        </button>
+        <Button type="submit" loading={signin.isPending}>
+          {signin.isPending ? <Loader /> : 'Sign In'}
+        </Button>
       </form>
     </div>
   );
