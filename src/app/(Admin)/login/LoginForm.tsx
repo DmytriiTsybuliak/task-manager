@@ -1,7 +1,6 @@
 'use client';
 
 import ErrorMessage from '@/components/ErrorMessage';
-import Loader from '@/components/ui/Loader';
 import Input from '@/components/ui/Input';
 import { useSignin } from '@/lib/hooks/useSignin';
 import { useRouter } from 'next/navigation';
@@ -55,7 +54,7 @@ export default function LoginForm() {
           required
         />
         <Button type="submit" loading={signin.isPending}>
-          {signin.isPending ? <Loader /> : 'Sign In'}
+          {!signin.isPending && 'Sign In'}
         </Button>
       </form>
     </div>
