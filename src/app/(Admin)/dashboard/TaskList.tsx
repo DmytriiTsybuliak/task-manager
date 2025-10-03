@@ -1,15 +1,13 @@
 'use client';
 
-import AddTaskModal from '@/components/AddTaskModal';
 import TaskCard from '@/app/(Admin)/dashboard/TaskCard';
 import { useTasks } from '@/lib/hooks/react-query';
 import { ITaskCard } from '@/lib/types/types';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function TaskList() {
   const { data, isLoading, isError } = useTasks();
-  const [IsModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,14 +28,6 @@ export default function TaskList() {
       <ul className="flex flex-row gap-4 flex-wrap ">
         {data && data.map((task: ITaskCard) => <TaskCard key={task._id} {...task} />)}
       </ul>
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors w-auto shrink-0"
-      >
-        + Add Task
-      </button>
-
-      <AddTaskModal isOpen={IsModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }
