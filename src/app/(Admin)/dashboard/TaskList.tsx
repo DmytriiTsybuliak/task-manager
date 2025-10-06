@@ -1,7 +1,7 @@
 'use client';
 
 import TaskCard from '@/app/(Admin)/dashboard/TaskCard';
-import { useTasks } from '@/lib/hooks/react-query';
+import { useTasks } from '@/lib/hooks/useCRUD';
 import { ITaskCard } from '@/lib/types/types';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';

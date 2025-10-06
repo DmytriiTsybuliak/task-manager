@@ -7,7 +7,7 @@ export default async function DashBoard() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ['tasks'],
-    queryFn: getTasks,
+    queryFn: () => getTasks(),
   });
 
   return (

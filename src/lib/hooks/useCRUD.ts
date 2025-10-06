@@ -2,10 +2,11 @@ import { createTask, deleteTask, getTasks, updateTask } from '@/lib/api/tasks';
 import { ITaskCard } from '@/lib/types/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-export function useTasks() {
+export function useTasks(query?: string, enabled: boolean = true) {
   return useQuery({
     queryKey: ['tasks'],
-    queryFn: getTasks,
+    queryFn: () => getTasks(query),
+    enabled,
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 }
@@ -13,9 +14,6 @@ export function useTasks() {
 export function useCreateTask() {
   const queryClient = useQueryClient();
   return useMutation({
-    // mutationFn: async (newTask: ITaskCard) => {
-    //   return await createTask(newTask);
-    // },
     mutationFn: (newTask: ITaskCard) => createTask(newTask),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
@@ -64,9 +62,6 @@ export function useUpdateTask() {
 export function useDeleteTask() {
   const queryClient = useQueryClient();
   return useMutation({
-    // mutationFn: async (taskID: string) => {
-    //   return await deleteTask(taskID);
-    // },
     mutationFn: (taskID: string) => deleteTask(taskID),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });

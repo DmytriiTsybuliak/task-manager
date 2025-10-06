@@ -1,4 +1,4 @@
-import { useDeleteTask } from '@/lib/hooks/react-query';
+import { useDeleteTask } from '@/lib/hooks/useCRUD';
 
 export interface DeleteTaskModalProps {
   isOpen?: boolean;

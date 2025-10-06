@@ -1,4 +1,4 @@
-import { useCreateTask } from '@/lib/hooks/react-query';
+import { useCreateTask } from '@/lib/hooks/useCRUD';
 import { ITaskCard } from '@/lib/types/types';
 import { useState } from 'react';
 

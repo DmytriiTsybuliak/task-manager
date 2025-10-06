@@ -1,4 +1,4 @@
-import { useUpdateTask } from '@/lib/hooks/react-query';
+import { useUpdateTask } from '@/lib/hooks/useCRUD';
 import { ITaskCard } from '@/lib/types/types';
 import { useEffect, useRef, useState } from 'react';
 import { useClickOutside } from '@/lib/hooks/useClickOutside';

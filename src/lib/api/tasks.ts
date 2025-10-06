@@ -1,10 +1,18 @@
 import { ITaskCard } from '@/lib/types/types';
 
-export async function getTasks() {
-  const res = await fetch('https://task-manager-backend-dif5.onrender.com/tasks', {
-    method: 'GET',
-    credentials: 'include',
-  });
+export async function getTasks(query?: string) {
+  const params = new URLSearchParams();
+  if (query) {
+    params.append('search', query);
+  }
+
+  const res = await fetch(
+    `https://task-manager-backend-dif5.onrender.com/tasks?${params.toString()}`,
+    {
+      method: 'GET',
+      credentials: 'include',
+    },
+  );
   if (!res.ok) {
     throw new Error('Failed to fetch tasks');
   }
