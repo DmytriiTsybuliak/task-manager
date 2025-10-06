@@ -1,3 +1,4 @@
+import NavBar from '@/app/(Admin)/dashboard/Navbar';
 import TaskList from '@/app/(Admin)/dashboard/TaskList';
 import { getTasks } from '@/lib/api/tasks';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
@@ -11,6 +12,7 @@ export default async function DashBoard() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <NavBar />
       <TaskList />
     </HydrationBoundary>
   );
