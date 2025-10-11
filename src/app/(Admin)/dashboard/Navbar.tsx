@@ -7,7 +7,7 @@ import { useState } from 'react';
 export default function NavBar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <div className="flex justify-between items-center p-4 gap-4 bg-gray-800 text-white">
+    <div className="flex flex-wrap justify-between items-center p-4 gap-6 bg-gray-800 text-white">
       <h1 className="text-2xl font-bold">Task Dashboard</h1>
       <SearchBar />
       <button
