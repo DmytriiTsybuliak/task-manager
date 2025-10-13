@@ -5,8 +5,8 @@ export function useSignin() {
   return useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       signin(email, password),
-    onSuccess: (data) => {
-      console.log('Login successful:', data);
+    onSuccess: () => {
+      console.log('Login successful');
     },
     onError: (error) => {
       console.error('Login failed:', error);

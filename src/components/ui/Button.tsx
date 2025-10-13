@@ -8,7 +8,7 @@ export default function Button({ loading, children, ...props }: ButtonProps) {
     <button
       {...props}
       disabled={loading || props.disabled}
-      className={`bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors disabled:opacity-70 disabled:cursor-not-allowed ${
+      className={`px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors w-auto shrink-0 ${
         props.className ?? ''
       }`}
     >
