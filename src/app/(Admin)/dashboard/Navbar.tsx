@@ -11,8 +11,10 @@ export default function NavBar() {
   return (
     <div className="flex flex-wrap justify-between items-center p-4 gap-6 bg-gray-800 text-white">
       <h1 className="text-2xl font-bold">Task Dashboard</h1>
-      <SearchBar />
-      <Button onClick={() => setIsModalOpen(true)}>Create</Button>
+      <div className="flex gap-3 items-center ">
+        <SearchBar />
+        <Button onClick={() => setIsModalOpen(true)}>Create</Button>
+      </div>
       <Logout />
       <AddTaskModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>

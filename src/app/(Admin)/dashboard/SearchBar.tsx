@@ -27,7 +27,7 @@ export default function SearchBar() {
           placeholder="Search..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          className="w-full rounded-lg py-2 pl-8 pr-4 text-sm text-gray-900  bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          className="w-full rounded-lg py-2 pl-8 pr-4 text-base text-gray-900  bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
         />
       </form>
     </div>

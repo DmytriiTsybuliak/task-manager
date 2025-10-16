@@ -1,4 +1,6 @@
 import { ITaskCard } from '@/lib/types/types';
+const API_URL = 'https://task-manager-backend-dif5.onrender.com';
+const Local_API_URL = 'http://localhost:8080';
 
 export async function getTasks(query?: string) {
   const params = new URLSearchParams();
@@ -6,13 +8,10 @@ export async function getTasks(query?: string) {
     params.append('search', query);
   }
 
-  const res = await fetch(
-    `https://task-manager-backend-dif5.onrender.com/tasks?${params.toString()}`,
-    {
-      method: 'GET',
-      credentials: 'include',
-    },
-  );
+  const res = await fetch(`${Local_API_URL}/tasks?${params.toString()}`, {
+    method: 'GET',
+    credentials: 'include',
+  });
   if (!res.ok) {
     throw new Error('Failed to fetch tasks');
   }
@@ -21,7 +20,7 @@ export async function getTasks(query?: string) {
 }
 
 export async function createTask(newTask: ITaskCard) {
-  const res = await fetch('https://task-manager-backend-dif5.onrender.com/tasks', {
+  const res = await fetch(`${Local_API_URL}/tasks`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -47,7 +46,7 @@ export async function updateTask(
     subtasks?: string[];
   },
 ) {
-  const res = await fetch(`https://task-manager-backend-dif5.onrender.com/tasks/${taskId}`, {
+  const res = await fetch(`${Local_API_URL}/tasks/${taskId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -64,7 +63,7 @@ export async function updateTask(
 }
 
 export async function deleteTask(taskId: string) {
-  const res = await fetch(`https://task-manager-backend-dif5.onrender.com/tasks/${taskId}`, {
+  const res = await fetch(`${Local_API_URL}/tasks/${taskId}`, {
     method: 'DELETE',
     credentials: 'include',
   });
