@@ -24,7 +24,7 @@ export default function TaskList() {
   return (
     <div className="flex flex-col items-center justify-center m-3 gap-6 p-7">
       {isLoading && <p>Loading tasks...</p>}
-      <ul className="flex flex-row gap-4 flex-wrap ">
+      <ul className="flex flex-row gap-4 flex-nowrap ">
         {data && data.map((task: ITaskCard) => <TaskCard key={task._id} {...task} />)}
       </ul>
     </div>

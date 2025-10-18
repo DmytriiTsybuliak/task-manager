@@ -32,41 +32,56 @@ export default function TaskCard(task: ITaskCard) {
 
   return (
     <div ref={ref}>
-      <li className="bg-white/95 max-w-60 min-h-72 max-h-90 dark:bg-gray-800 rounded-2xl shadow-md p-4 flex flex-col gap-3 hover:shadow-lg transition-all duration-200 border border-gray-200 dark:border-gray-700">
+      <li className="bg-white/95 max-w-70 min-h-70 max-h-170 dark:bg-gray-800 rounded-2xl shadow-md p-4 flex flex-col gap-3 hover:shadow-lg transition-all duration-200 border border-gray-200 dark:border-gray-700">
         {/* Title*/}
-        <input
-          type="text"
-          value={draft.title}
-          onChange={(e) => setDraft({ ...draft, title: e.target.value })}
-          onClick={() => setIsEditing(true)}
-          className={`font-semibold text-lg w-full bg-transparent border-b focus:outline-none ${
-            isEditing ? 'border-blue-400' : 'border-transparent'
-          } text-gray-900 dark:text-gray-100`}
-          readOnly={!isEditing}
-        />
+        <div className="flex flex-row">
+          <input
+            type="text"
+            maxLength={15}
+            value={draft.title}
+            onChange={(e) => setDraft({ ...draft, title: e.target.value })}
+            onClick={() => setIsEditing(true)}
+            className={`font-semibold text-lg w-full bg-transparent border-b focus:outline-none ${
+              isEditing ? 'border-blue-400' : 'border-transparent'
+            } text-gray-900 dark:text-gray-100`}
+            readOnly={!isEditing}
+          />
+
+          {/* Completed*/}
+          <label
+            className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300"
+            title={draft.isCompleted ? 'Mark as Incomplete' : 'Mark as Complete'}
+          >
+            <input
+              type="checkbox"
+              checked={draft.isCompleted}
+              onChange={(e) => setDraft({ ...draft, isCompleted: e.target.checked })}
+              onClick={() => setIsEditing(true)}
+              className="h-4 w-4 accent-green-500 rounded-4xl"
+            />
+          </label>
+        </div>
 
         {/* Description*/}
         <textarea
           placeholder="Description"
           value={draft.description}
-          onChange={(e) => setDraft({ ...draft, description: e.target.value })}
+          onChange={(e) => {
+            setDraft({ ...draft, description: e.target.value });
+            e.target.style.height = 'auto';
+            e.target.style.height = `${e.target.scrollHeight}px`;
+          }}
           onClick={() => setIsEditing(true)}
-          className="bg-gray-50 dark:bg-gray-700 rounded-xl p-2 overflow-y-auto text-gray-800 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-          rows={3}
+          className={`w-full h-auto rounded-xl p-3 overflow-hidden resize-none text-sm transition-all duration-200
+    ${
+      isEditing
+        ? 'bg-white dark:bg-gray-800 border border-blue-400 ring-2 ring-blue-300 shadow-sm'
+        : 'bg-gray-50 dark:bg-gray-700 border border-transparent'
+    }
+    text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none`}
+          rows={draft.description ? draft.description.length / 20 + 2 : 3}
           readOnly={!isEditing}
         />
-
-        {/* Completed*/}
-        <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 ">
-          <input
-            type="checkbox"
-            checked={draft.isCompleted}
-            onChange={(e) => setDraft({ ...draft, isCompleted: e.target.checked })}
-            onClick={() => setIsEditing(true)}
-            className="h-4 w-4 accent-green-500"
-          />
-          Completed
-        </label>
 
         {/* Priority*/}
         <select
@@ -129,13 +144,17 @@ export default function TaskCard(task: ITaskCard) {
             />
           )}
         </div>
-        <button
-          type="button"
-          onClick={() => setIsModalOpen(true)}
-          className=" text-black bg-gray-300 hover:bg-gray-600 dark:text-white hover:text-black dark:bg-transparent dark:hover:bg-white transition-all duration-200 rounded-xl"
-        >
-          🗑 Delete
-        </button>
+
+        {/* Delete Button and Modal */}
+        {isEditing && (
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="flex  items-center justify-center self-end"
+          >
+            🗑
+          </button>
+        )}
         <DeleteTaskModal
           isOpen={isModalOpen}
           title={draft.title}

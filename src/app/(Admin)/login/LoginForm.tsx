@@ -27,10 +27,7 @@ export default function LoginForm() {
   return (
     <div className="w-full max-w-xs">
       {signin.isError && <ErrorMessage error={signin.error} />}
-      <form
-        onSubmit={handleLogin}
-        className="flex flex-col content-center gap-4 mx-auto mt-10 px-3"
-      >
+      <form onSubmit={handleLogin} className="flex flex-col content-center gap-4 mx-auto mt-5 px-3">
         <Input
           id="email"
           type="email"
