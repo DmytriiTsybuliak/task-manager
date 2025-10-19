@@ -2,20 +2,20 @@
 
 import ErrorMessage from '@/components/ErrorMessage';
 import Input from '@/components/ui/Input';
-import { useSignin } from '@/lib/hooks/useSignin';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Button from '@/components/ui/Button';
+import { useSignUp } from '@/lib/hooks/useSignUp';
 
-export default function LoginForm() {
-  const signin = useSignin();
-  const [email, setEmail] = useState('1tonistark1997@gmail.com');
-  const [password, setPassword] = useState('1111');
+export default function SignUpForm() {
+  const signup = useSignUp();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    signin.mutate(
+    signup.mutate(
       { email, password },
       {
         onSuccess: () => {
@@ -26,7 +26,7 @@ export default function LoginForm() {
   };
   return (
     <div className="w-full max-w-xs">
-      {signin.isError && <ErrorMessage error={signin.error} />}
+      {signup.isError && <ErrorMessage error={signup.error} />}
       <form onSubmit={handleLogin} className="flex flex-col content-center gap-4 mx-auto mt-5 px-3">
         <Input
           id="email"
@@ -50,10 +50,27 @@ export default function LoginForm() {
           }}
           required
         />
-        <Button type="submit" loading={signin.isPending}>
-          {!signin.isPending && 'Sign In'}
+        <Button type="submit" loading={signup.isPending}>
+          {!signup.isPending && 'Sign Up'}
         </Button>
       </form>
+      <div className="relative my-5 mx-3">
+        <hr className=" border-gray-300" />
+        <span className="absolute left-1/2 -translate-x-1/2 -top-3 bg-white px-2 text-gray-500 text-sm">
+          or
+        </span>
+      </div>
+      <div className="flex flex-col content-center gap-3 mx-auto mt-8 px-3">
+        <Button
+          onClick={() => {
+            router.replace('/login');
+          }}
+          className="bg-green-600 hover:bg-green-700"
+          type="button"
+        >
+          Back to Login
+        </Button>
+      </div>
     </div>
   );
 }
