@@ -15,7 +15,7 @@ export async function signin(email: string, password: string) {
 }
 
 export async function signup(email: string, password: string) {
-  const res = await fetch(`${Local_API_URL}/auth/register`, {
+  const res = await fetch(`${Local_API_URL}/auth/signup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),

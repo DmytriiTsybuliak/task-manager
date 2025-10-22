@@ -11,10 +11,17 @@ export default function SignUpForm() {
   const signup = useSignUp();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
   const router = useRouter();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
     signup.mutate(
       { email, password },
       {
@@ -50,6 +57,18 @@ export default function SignUpForm() {
           }}
           required
         />
+        <Input
+          id="password"
+          type="password"
+          label="Confirm Password"
+          placeholder="Confirm your password"
+          value={confirmPassword}
+          onChange={(e) => {
+            setConfirmPassword(e.target.value);
+          }}
+          required
+        />
+        {error && <p className="text-red-500 text-sm mt-[-8px]">{error}</p>}
         <Button type="submit" loading={signup.isPending}>
           {!signup.isPending && 'Sign Up'}
         </Button>

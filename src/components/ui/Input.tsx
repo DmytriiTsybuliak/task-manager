@@ -12,7 +12,7 @@ export default function Input({ label, id, ...props }: InputProps) {
       <input
         id={id}
         {...props}
-        className={`border rounded p-3 text-gray-900 dark:text-gray-100 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+        className={`border rounded p-2 text-gray-900 dark:text-gray-100 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
           props.className ?? ''
         }`}
       />
