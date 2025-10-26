@@ -8,7 +8,7 @@ export async function getTasks(query?: string) {
     params.append('search', query);
   }
 
-  const res = await fetch(`${Local_API_URL}/tasks?${params.toString()}`, {
+  const res = await fetch(`${API_URL}/tasks?${params.toString()}`, {
     method: 'GET',
     credentials: 'include',
   });
@@ -20,7 +20,7 @@ export async function getTasks(query?: string) {
 }
 
 export async function createTask(newTask: ITaskCard) {
-  const res = await fetch(`${Local_API_URL}/tasks`, {
+  const res = await fetch(`${API_URL}/tasks`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export async function updateTask(
     subtasks?: string[];
   },
 ) {
-  const res = await fetch(`${Local_API_URL}/tasks/${taskId}`, {
+  const res = await fetch(`${API_URL}/tasks/${taskId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ export async function updateTask(
 }
 
 export async function deleteTask(taskId: string) {
-  const res = await fetch(`${Local_API_URL}/tasks/${taskId}`, {
+  const res = await fetch(`${API_URL}/tasks/${taskId}`, {
     method: 'DELETE',
     credentials: 'include',
   });
